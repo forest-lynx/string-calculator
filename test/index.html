@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StringCalculator Tests</title>
+    <style>
+        .test-case {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+        .error {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+    </style>
+</head>
+<body>
+    <h1>StringCalculator Tests</h1>
+    <div id="test-results"></div>
+
+    <script src="../dist/string-calculator.min.js"></script>
+    <script>
+        // Utility function to run tests
+        function runTest(description, string, expectedResult, options = {}) {
+            const testCase = document.createElement('div');
+            testCase.className = 'test-case';
+            
+            try {
+                const calculator = new window.StringCalculator(options); 
+                const result = calculator.calculate(string);
+                const passed = Math.abs(result - expectedResult) < 0.0001;
+                
+                testCase.classList.add(passed ? 'success' : 'error');
+                testCase.innerHTML = `
+                    <strong>Test:</strong> ${description}<br>
+                    <strong>String:</strong> ${string}<br>
+                    <strong>Expected:</strong> ${expectedResult}<br>
+                    <strong>Got:</strong> ${result}<br>
+                    <strong>Status:</strong> ${passed ? 'PASSED' : 'FAILED'}
+                `;
+            } catch (error) {
+                testCase.classList.add('error');
+                testCase.innerHTML = `
+                    <strong>Test:</strong> ${description}<br>
+                    <strong>String:</strong> ${string}<br>
+                    <strong>Error:</strong> ${error.message}
+                `;
+            }
+            
+            document.getElementById('test-results').appendChild(testCase);
+        }
+
+        // Run test cases
+        const tests = [
+            {
+                description: "Basic addition",
+                string: "2 + 2",
+                expected: 4
+            },
+            {
+                description: "Complex expression with parentheses",
+                string: "(2 + 3) * 4",
+                expected: 20
+            },
+            {
+                description: "Percentage calculation",
+                string: "100 + 10%",
+                expected: 110
+            },
+            {
+                description: "Decimal numbers with custom separator",
+                string: "1,5 + 2,5",
+                expected: 4,
+                options: { decimalSeparator: "," }
+            },
+            {
+                description: "Expression with thousands separator",
+                string: "1,000 + 1,000",
+                expected: 2000,
+                options: { thousandsSeparator: "," }
+            },
+            {
+                description: "Complex percentage calculation",
+                string: "200 - 10%",
+                expected: 180
+            },
+            {
+                description: "Power operation",
+                string: "2 ** 3",
+                expected: 8
+            },
+            {
+                description: "Division with decimals",
+                string: "10 / 3",
+                expected: 3.333,
+                options: { fractionDigits: 3 }
+            }
+        ];
+
+        // Execute all tests
+        tests.forEach(test => {
+            runTest(
+                test.description,
+                test.string,
+                test.expected,
+                test.options
+            );
+        });
+    </script>
+</body>
+</html>

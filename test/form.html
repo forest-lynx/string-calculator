@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StringCalculator Tests</title>
+    <style>
+        body{
+            margin: 0 5rem;
+        }
+        .test-case {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .error {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .title-settings{
+            display: flex; 
+            align-items: center;
+        }
+
+        #settings {
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        #settings.active {
+            display: flex;
+            align-items: center;
+        }
+
+        #result {
+            margin-top: 10px;
+            padding: 5px;
+        }
+
+        #result.error {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: red;
+        }
+
+        #result.success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: green;
+        }
+
+        #settings-toggle {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>StringCalculator</h1>
+
+    <div>
+        <label for="expression">Expression:</label><br>
+        <input type="text" id="expression" value="10 + 20 / 2">
+        <button id="clear">Clear</button>
+        <button id="calculate">Calculate</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="title-settings">
+        <h2>Settings</h2>
+        <button id="settings-toggle">&#x25BC;</button>
+    </div>
+    <div id="settings">
+        <label for="decimalSeparator">Decimal Separator:</label>
+        <input type="text" id="decimalSeparator" value="."><br>
+
+        <label for="thousandsSeparator">Thousands Separator:</label>
+        <input type="text" id="thousandsSeparator" value=""><br>
+
+        <label for="fractionDigits">Fraction Digits:</label>
+        <input type="number" id="fractionDigits" value="2"><br>
+
+        <label for="min">Min:</label>
+        <input type="number" id="min" value=""><br>
+
+        <label for="max">Max:</label>
+        <input type="number" id="max" value=""><br>
+    </div>
+
+
+    <script src="../dist/string-calculator.min.js"></script>
+    <script>
+        const expressionInput = document.getElementById('expression');
+        const resultDiv = document.getElementById('result');
+        const settingsDiv = document.getElementById('settings');
+        const settingsToggle = document.getElementById('settings-toggle');
+        const clearButton = document.getElementById('clear');
+        const calculateButton = document.getElementById('calculate');
+        const decimalSeparatorInput = document.getElementById('decimalSeparator');
+        const thousandsSeparatorInput = document.getElementById('thousandsSeparator');
+        const fractionDigitsInput = document.getElementById('fractionDigits');
+        const minInput = document.getElementById('min');
+        const maxInput = document.getElementById('max');
+
+
+        settingsToggle.addEventListener('click', () => {
+            settingsDiv.classList.toggle('active');
+            settingsToggle.innerHTML = settingsDiv.classList.contains('active') ? '&#x25B2;' : '&#x25BC;';
+        });
+
+        clearButton.addEventListener('click', () => {
+            expressionInput.value = '';
+            resultDiv.textContent = '';
+            resultDiv.className = '';
+        });
+
+        calculateButton.addEventListener('click', () => {
+            const options = {
+                decimalSeparator: decimalSeparatorInput.value,
+                thousandsSeparator: thousandsSeparatorInput.value,
+                fractionDigits: parseInt(fractionDigitsInput.value, 10),
+                min: minInput.value ? parseFloat(minInput.value) : -Infinity,
+                max: maxInput.value ? parseFloat(maxInput.value) : Infinity,
+            };
+
+            console.log(expressionInput.value)
+            try {
+                const calculator = new StringCalculator(options);
+                const result = calculator.calculate(expressionInput.value);
+                console.log(result);
+                resultDiv.textContent = `Result: ${result}`;
+                resultDiv.classList.remove('error');
+                resultDiv.classList.add('success');
+
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.classList.remove('success');
+                resultDiv.classList.add('error');
+            }
+        });
+
+
+
+    </script>
+</body>
+
+</html>

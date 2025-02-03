@@ -4,6 +4,8 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-blue.svg)](TypeScript)
 
+Documentation: [EN](./doc/README-EN.md) | [RU](README.md)
+
 Пакет **String Calculator** предоставляет удобный и гибкий инструмент для выполнения математических операций над строками, содержащими числа и арифметические операторы, включая поддержку объединения операций (с использованием круглых скобок) бесконечной вложенности.
 
 ## Содержание
@@ -18,10 +20,6 @@
 ```bash
 npm install @forest-lynx/string-calculator
 ```
-или
-```bash
-yarn add @forest-lynx/string-calculator
-```
 ## Использование
 
 Подключение:
@@ -33,29 +31,30 @@ const result = calculator.calculate('1 + 2 * 3');
 ```
 #### Доступные методы:
 `calculate(string)` - Вычисляет математическое выражение, переданное в виде строки.
-Доступные символы: `[0-9]`, `+`, `-`, `*`, `/`, `%`, `^`, `.`, `,` , `(`, `)`, `Space`.
+Допустимые символы: `[0-9]`, `+`, `-`, `*`, `/`, `%`, `^`, `.`, `,` , `(`, `)`, `Space`.
 Описание некоторых символов:
 - `%` - вычисление процента,
 - `^` - возведение в степень,
-- `.`, `,`, `Space` - разделитель тысячных, десятичных знаков,
+- `.`, `,`, `Space` - разделитель тысячных, десятичных знаков
 
-`format(value)` Форматирует число в строку с учетом заданных [настроек](#настройка).
+`format(value)` Форматирует число в строку с учетом заданных [настроек](#настройки-формата-числа).
 
 ```javascript
 const formattedNumber = calculator.format(1234.567); // Output: 1234.57 
 
-const formattedNumber = calculator.format(1234.567); // Output: 1 234,57 (При настройках: decimalSeparator: ',', thousandsSeparator: ' ', fractionDigits: 2)
+// При настройках: decimalSeparator: ',', thousandsSeparator: ' ', fractionDigits: 2
+const formattedNumber = calculator.format(1234.567); // Output: 1 234,57 
 ```
-`parse(value)` - Форматирует строку в число с учетом заданных [настроек](#настройка).
+`parse(value)` - Форматирует строку в число с учетом заданных [настроек](#настройки-формата-числа).
 
 ```javascript
+// При настройках: decimalSeparator: ',', thousandsSeparator: ' ', fractionDigits: 2
 const parsedNumber = calculator.parse('1 234,57');
-console.log(parsedNumber); // Output: 1234.57 (При настройках: decimalSeparator: ',', thousandsSeparator: ' ', fractionDigits: 2)
+console.log(parsedNumber); // Output: 1234.57
 ```
 
-### Использование в HTML
+### Использование на HTML-странице
 Возможно использование как обычного скрипта, для подключения к странице используйте файл string-calculator.min.js.
-Доступен из глобальной области видимости `windows`.
 ```html
 <!DOCTYPE html>
 <html>
@@ -63,7 +62,7 @@ console.log(parsedNumber); // Output: 1234.57 (При настройках: deci
     <title>String Calculator Example</title>
     <script src="./dist/string-calculator.min.js"></script> 
     <script>
-        const calculator = new StringCalculator(); // or new window.StringCalculator();
+        const calculator = new StringCalculator(options); // or new window.StringCalculator(options);
         const result = calculator.calculate('10 + 20 / 2'); // Output: Result: 20
     </script>
 </head>

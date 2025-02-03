@@ -57,7 +57,7 @@ export class StringCalculator implements IStringCalculator {
   }
 }
 
-export function calculate(expression: string,options: StringCalculatorOptions = {}): number {
+export function stringCalculate(expression: string,options: StringCalculatorOptions = {}): number {
     const calculator = new StringCalculator(options);
     return calculator.calculate(expression);
 } 

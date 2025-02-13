@@ -54,13 +54,13 @@ console.log(parsedNumber); // Output: 1234.57
 ```
 
 ### Usage on an HTML page
-It can be used as a regular script. To connect to the page, use the file string-calculator.min.js.
+It can be used as a regular script, save the file `dist/string-calculator.min.js` to your project or connect it via cdn: `https://cdn.jsdelivr.net/npm/@forest-lynx/string-calculator@0.2.1/dist/string-calculator.min.js`
 ```html
 <!DOCTYPE html>
 <html>
 <head>
     <title>String Calculator Example</title>
-    <script src="./dist/string-calculator.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@forest-lynx/string-calculator@0.2.1/dist/string-calculator.min.js"></script> 
     <script>
         const calculator = new StringCalculator(options); // or new window.StringCalculator(options);
         const result = calculator.calculate('10 + 20 / 2'); // Output: Result: 20
